@@ -67,11 +67,11 @@ void autonomous(void) {
 
     //shoot 42.5 inches from basket
     //skills: roller, move forward, turn 90 right, back up, roller //move 25 in
-    Motor8.spinFor(reverse, 180.0, degrees, true);
-    Drivetrain.driveFor(fwd, 25.0, in, true);
-    Drivetrain.turnFor(-90.0, degrees, true);
-    Drivetrain.driveFor(rev, 25.0, in, true);
-    Motor8.spinFor(reverse, 180.0, degrees, true);
+    Drivetrain.driveFor(directionType::fwd, 25.0, distanceUnits::in, true);
+    Motor8.spinFor(reverse, 180.0, rotationUnits::degrees, true);
+    Drivetrain.turnFor(-90.0, rotationUnits::degrees, true);
+    Drivetrain.driveFor(directionType::rev, 25.0, distanceUnits::in, true);
+    Motor8.spinFor(reverse, 180.0, rotationUnits::degrees, true);
 
 
 
