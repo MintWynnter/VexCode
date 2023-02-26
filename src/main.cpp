@@ -10,7 +10,7 @@
 // ---- START VEXCODE CONFIGURED DEVICES ----
 // Robot Configuration:
 // [Name]               [Type]        [Port(s)]
-// Motor14              motor         14              
+// Motor14              motor         14
 // ---- END VEXCODE CONFIGURED DEVICES ----
 
 #include "vex.h"
@@ -27,7 +27,7 @@ motor rightMotorB = motor(PORT12, ratio18_1, true);
 motor_group RightDriveSmart = motor_group(rightMotorA, rightMotorB);
 drivetrain Drivetrain = drivetrain(LeftDriveSmart, RightDriveSmart, 319.19, 295, 40, mm, 1);
 motor Motor9 = motor(PORT9, ratio6_1, false);
-motor Motor8 = motor(PORT8, ratio18_1, false);
+motor Motor8 = motor(PORT8, ratio18_1, false); //roller motor
 motor Motor13 = motor(PORT13, ratio18_1, false);
 controller Controller1 = controller(primary);
 motor Motor14 = motor(PORT14, ratio18_1, false);
@@ -65,15 +65,25 @@ void pre_auton(void) {
 
 void autonomous(void) {
 
+    //shoot 42.5 inches from basket
+    //skills: roller, move forward, turn 90 right, back up, roller //move 25 in
+    Motor8.spinFor(reverse, 180.0, degrees, true);
+    Drivetrain.driveFor(fwd, 25.0, in, true);
+    Drivetrain.turnFor(-90.0, degrees, true);
+    Drivetrain.driveFor(rev, 25.0, in, true);
+    Motor8.spinFor(reverse, 180.0, degrees, true);
+
+
+
     //Motor8.spinFor(reverse, 180.0, degrees, true);
-       LeftDriveSmart.spin(forward);
+    /*    LeftDriveSmart.spin(forward);
         RightDriveSmart.spin(forward);
         wait(6,seconds);
         LeftDriveSmart.spin(reverse);
         RightDriveSmart.spin(reverse);
         wait(5,seconds);
         LeftDriveSmart.stop();
-        RightDriveSmart.stop();
+        RightDriveSmart.stop();*/
 
     // ..........................................................................
   // Insert autonomous user code here.
@@ -110,7 +120,7 @@ void usercontrol(void) {
       // right = Axis2
       int drivetrainLeftSideSpeed = Controller1.Axis3.position();
       int drivetrainRightSideSpeed = Controller1.Axis2.position();
-      
+
       // check if the value is inside of the deadband range
       if (drivetrainLeftSideSpeed < 5 && drivetrainLeftSideSpeed > -5) {
         // check if the left motor has already been stopped
@@ -137,7 +147,7 @@ void usercontrol(void) {
         // reset the toggle so that the deadband code knows to stop the right motor next time the input is in the deadband range
         DrivetrainRNeedsToBeStopped_Controller1 = true;
       }
-      
+
       // only tell the left drive motor to spin if the values are not in the deadband range
       if (DrivetrainLNeedsToBeStopped_Controller1) {
         LeftDriveSmart.setVelocity(drivetrainLeftSideSpeed, percent);
@@ -191,7 +201,7 @@ void usercontrol(void) {
   }
 }
 
-    
+
     // ........................................................................
     // Insert user code here. This is where you use the joystick values to
     // update your motors, etc.
